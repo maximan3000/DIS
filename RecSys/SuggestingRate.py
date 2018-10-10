@@ -8,11 +8,12 @@ from RecSys.Consts import Paths
 
 
 class SuggestingRate:
+
     kNN = 7
 
     __symmetries = dict()
     __userName = str()
-    __userRates = []
+    __userRates = list()
     __userAverageRate = 0.0
     __nClosestUsers = list()
 
@@ -64,9 +65,9 @@ class SuggestingRate:
         sim(U,V) = sum(i=1..m; U[i]*V[i]) / ( sqrt sum(i=1..m; U[i]^2]) * sqrt sum(i=1..m; V[i]^2) )
         где V - текущий пользователь
         """
-        sumUV = 0.0
-        sumU2 = 0.0
-        sumV2 = 0.0
+        sumUV = 0
+        sumU2 = 0
+        sumV2 = 0
         for i in range(0, len(filmRates)):
             filmRate = int(filmRates[i])
             ourRate = self.__userRates[i]
@@ -74,7 +75,8 @@ class SuggestingRate:
                 sumUV += filmRate * ourRate
                 sumU2 += filmRate * filmRate
                 sumV2 += ourRate * ourRate
-        return sumUV / (numpy.sqrt(sumU2) * numpy.sqrt(sumV2))
+        symmetry = sumUV / (numpy.sqrt(sumV2) * numpy.sqrt(sumU2))
+        return symmetry
 
     """
     Найти среднюю оценку
@@ -82,11 +84,13 @@ class SuggestingRate:
 
     def __getAverageRate(self, filmRates: list) -> float:
         avg = 0.0
+        count = 0
         for filmRate in filmRates:
             rate = int(filmRate)
             if -1 != rate:
                 avg += rate
-        return avg / len(filmRates)
+                count += 1
+        return avg / count
 
     """
     Получить n пользователей, которые наиболее схожи с нашим пользователем, в убывающем порядке сходства
