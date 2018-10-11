@@ -8,7 +8,7 @@ from RecSys.Consts import Paths
 
 
 class SuggestingRate:
-
+    # Коллаборативая фильтрация: user-based, метод kNN
     kNN = 7
 
     __symmetries = dict()
@@ -37,7 +37,7 @@ class SuggestingRate:
                 userName = user[0]
                 if userName == self.__userName:
                     userRates = user[1:len(user)]
-        for i in range(0, len(userRates)):
+        for i in range(len(userRates)):
             userRates[i] = int(userRates[i])
         return userRates
 
@@ -68,7 +68,7 @@ class SuggestingRate:
         sumUV = 0
         sumU2 = 0
         sumV2 = 0
-        for i in range(0, len(filmRates)):
+        for i in range(len(filmRates)):
             filmRate = int(filmRates[i])
             ourRate = self.__userRates[i]
             if filmRate != -1 and ourRate != -1:
@@ -101,7 +101,7 @@ class SuggestingRate:
         symmetriesEntries.sort(key=lambda entry: entry[1], reverse=True)
 
         symmetriesUsers = list()
-        for i in range(0, n):
+        for i in range(n):
             symmetriesUsers.append(symmetriesEntries[i][0])
         return symmetriesUsers
 
@@ -131,7 +131,7 @@ class SuggestingRate:
 
     def suggestRates(self) -> dict:
         suggest = dict()
-        for index in range(0, len(self.__userRates)):
+        for index in range(len(self.__userRates)):
             filmRate = self.__userRates[index]
             filmNumber = index + 1
             if int(filmRate) == -1:
