@@ -1,0 +1,15 @@
+{
+    "user": 1,
+    "1 (rate forecasts)": {
+        "Movie 1": 2.52,
+        "Movie 5": 2.38,
+        "Movie 6": 1.25,
+        "Movie 7": 3.95,
+        "Movie 10": 2.67,
+        "Movie 17": 0.96,
+        "Movie 23": 2.67,
+        "Movie 24": 2.67,
+        "Movie 27": 2.11
+    },
+    "2 (film recommendation)": "Movie 1"
+}
