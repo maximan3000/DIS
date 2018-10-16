@@ -1,4 +1,6 @@
 import csv
+import re
+
 import numpy
 import json
 from RecSys.Consts import Paths
@@ -24,7 +26,6 @@ class SuggestingRate:
     __allUserPlaces = list()
 
     __symmetries = dict()
-    __nClosestUsers = list()
 
     """
     Найти прогноз оценки пользователя для всех фильмов, которые он не оценил
@@ -42,19 +43,23 @@ class SuggestingRate:
     Найти прогноз оценки пользователя для фильма номер filmIndex (нумерация с 1)
     Рассчитывается по формуле в задании
     """
-    def suggestRate(self, filmIndex: int) -> float:
+    def suggestRate(self, filmNumber: int) -> float:
         topSum = 0.0
         downSum = 0.0
+        nClosestUsers = self.__getNclosestUsers(self.kNN, filmNumber)
         for user in self.__allUserRates:
             userName = user[0]
-            if userName in self.__nClosestUsers:
+            if userName in nClosestUsers:
                 rates = user[1:len(user)]
                 avgRate = self.__getAverageRate(rates)
-                topSum += self.__symmetries[userName] * (int(user[filmIndex]) - avgRate)
-                downSum += numpy.abs(self.__symmetries[userName])
-
-        suggest = self.__userAverageRate + topSum / downSum
-        return numpy.round(suggest, 2)
+                rate = int(user[filmNumber])
+                a = self.__symmetries[userName] * (rate - avgRate)
+                print()
+                topSum += a
+                b = numpy.abs(self.__symmetries[userName])
+                downSum += b
+        suggest = self.__userAverageRate + (topSum / downSum)
+        return numpy.round(suggest, 3)
 
     """
     Алгоритм рекомендации:
@@ -115,7 +120,8 @@ class SuggestingRate:
         self.__userRates = self.__getUserRates()
         self.__symmetries = self.__getSymmetries()
         self.__userAverageRate = self.__getAverageRate(self.__userRates)
-        self.__nClosestUsers = self.__getNclosestUsers(self.kNN)
+
+        print();
 
     """
     Заполнить self.__userRates - все оценки пользователя для текущего экземпляра
@@ -155,7 +161,6 @@ class SuggestingRate:
             if userName and userName != self.__userName:
                 filmRates = user[1:len(user)]
                 symmetries[userName] = self.__findSymmetry(filmRates)
-
         return symmetries
 
     """
@@ -195,13 +200,20 @@ class SuggestingRate:
     """
     Получить n пользователей, которые наиболее схожи с нашим пользователем, в убывающем порядке сходства
     """
-    def __getNclosestUsers(self, n: int) -> list:
+    def __getNclosestUsers(self, n: int, filmNumber: int) -> list:
         symmetriesEntries = list(self.__symmetries.items())
         symmetriesEntries.sort(key=lambda entry: entry[1], reverse=True)
 
         symmetriesUsers = list()
-        for i in range(n):
-            symmetriesUsers.append(symmetriesEntries[i][0])
+        i = 0
+        while i < n:
+            p = re.compile("[0-9]+")
+            index = int(p.search(symmetriesEntries[i][0]).group()) - 1
+            rates = self.__allUserRates[index]
+            if ( int(rates[filmNumber]) != -1 ):
+                symmetriesUsers.append(symmetriesEntries[i][0])
+            i += 1
+
         return symmetriesUsers
 
 
@@ -209,7 +221,7 @@ userSuggestion = SuggestingRate("User 1")
 result = {
     "user": 1,
     "1 (rate forecasts)": userSuggestion.suggestRates(),
-    "2 (film recommendation)": "Movie " + str(userSuggestion.recommend())
+    #"2 (film recommendation)": "Movie " + str(userSuggestion.recommend())
 }
 with open('user1.json', 'w') as outfile:
     json.dump(obj=result, fp=outfile, indent=4)
