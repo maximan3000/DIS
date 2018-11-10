@@ -1,0 +1,19 @@
+{
+    "User": "User 5",
+    "Rates forecast": {
+        "Movie 12": 3.969,
+        "Movie 23": 2.773,
+        "Movie 27": 3.47,
+        "Movie 29": 4.165
+    },
+    "Film recommendation": "Movie 24",
+    "Film name": "It's a Wonderful Life",
+    "Director name": "Frank Capra",
+    "Director awards": [
+        "Academy Award for Best Director",
+        "AFI Life Achievement Award",
+        "National Medal of Arts",
+        "Inkpot Award",
+        "Golden Plate Award"
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "User": "User 7",
+    "Rates forecast": {
+        "Movie 9": 2.55,
+        "Movie 11": 3.13,
+        "Movie 16": 1.68,
+        "Movie 17": 3.239,
+        "Movie 25": 3.563
+    },
+    "Film recommendation": "Movie 10",
+    "Film name": "Fight Club",
+    "Director name": "David Fincher",
+    "Director awards": [
+        "Primetime Emmy Award for Outstanding Directing for a Drama Series",
+        "BAFTA Award for Best Direction"
+    ]
+}
