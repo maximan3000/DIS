@@ -17,12 +17,17 @@ class BackPackProblemDeap:
     GENERATION_COUNT = 100
     CROSSOVER_CHANCE = 0.5
     MUTATE_CHANCE = 0.1
-    MUtATE_INVERT_VALUE_CHANCE = 0.05
+    MUTATE_INVERT_VALUE_CHANCE = 0.05
 
-    _backpack = dict()
-    _itemCount = int()
+    def __init__(self, backpack:dict) -> None:
+        self._backpack = backpack
+        self._itemCount = len(self._backpack["data"])
+        self._toolbox = base.Toolbox()
 
-    _toolbox = base.Toolbox()
+        self._initFitness()
+        self._initPopulation()
+        self._initEvolutionFunctions()
+        super().__init__()
 
     @classmethod
     def solve(cls, backpack:dict) -> dict:
@@ -81,14 +86,6 @@ class BackPackProblemDeap:
         result["items"] = totalItems
         return result
 
-    def __init__(self, backpack:dict) -> None:
-        self._backpack = backpack
-        self._itemCount = len(self._backpack["data"])
-        self._initFitness()
-        self._initPopulation()
-        self._initEvolutionFunctions()
-        super().__init__()
-
     def _initFitness(self) -> None:
         """
         Создание классов для работы.
@@ -125,7 +122,7 @@ class BackPackProblemDeap:
         """
         self._toolbox.register("evaluate", self._evalOneMax)
         self._toolbox.register("mate", tools.cxTwoPoint)
-        self._toolbox.register("mutate", tools.mutFlipBit, indpb=self.MUtATE_INVERT_VALUE_CHANCE)
+        self._toolbox.register("mutate", tools.mutFlipBit, indpb=self.MUTATE_INVERT_VALUE_CHANCE)
         self._toolbox.register("select", tools.selTournament, tournsize=3)
 
     def _evalOneMax(self, individual) -> tuple:

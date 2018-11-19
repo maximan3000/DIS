@@ -5,18 +5,18 @@ class UserSuggestingRate:
     Класс для рекомендационной системы. Строится на основании данных конкретного пользователя
     """
 
-    # Коллаборативая фильтрация: user-based, метод kNN
-    kNN = int()
+    def __init__(self, myName: str, usersRates: dict, usersDaysOfWeek: dict, usersPlaces: dict, kNN: int = 7) -> None:
+        super().__init__()
+        self.__myName = myName
+        self.kNN = kNN # Коллаборативая фильтрация: user-based, метод kNN
 
-    __myName = str()
-    __myRates = list()
-    __myAverageRate = float()
+        self.usersRates = usersRates
+        self.usersDaysOfWeek = usersDaysOfWeek
+        self.usersPlaces = usersPlaces
 
-    usersRates = dict()
-    usersDaysOfWeek = dict()
-    usersPlaces = dict()
-
-    __symmetries = dict()
+        self.__myRates = self.__getUserRates()
+        self.__symmetries = self.__getSymmetries()
+        self.__myAverageRate = self.getAverageRate(self.__myRates)
 
     def suggestRates(self) -> dict:
         """
@@ -126,19 +126,6 @@ class UserSuggestingRate:
                 sumV2 += rate2 * rate2
         symmetry = sumUV / (numpy.sqrt(sumV2) * numpy.sqrt(sumU2))
         return symmetry
-
-    def __init__(self, myName: str, usersRates: dict, usersDaysOfWeek: dict, usersPlaces: dict, kNN: int = 7) -> None:
-        super().__init__()
-        self.__myName = myName
-        self.kNN = kNN
-
-        self.usersRates = usersRates
-        self.usersDaysOfWeek = usersDaysOfWeek
-        self.usersPlaces = usersPlaces
-
-        self.__myRates = self.__getUserRates()
-        self.__symmetries = self.__getSymmetries()
-        self.__myAverageRate = self.getAverageRate(self.__myRates)
 
     def __getUserRates(self) -> list:
         """
