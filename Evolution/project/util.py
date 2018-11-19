@@ -20,4 +20,3 @@ def parseInput(fileName: str) -> dict:
         result["data"].append(values)
 
     return result
-
