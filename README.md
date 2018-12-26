@@ -1,3 +1,5 @@
-# DIS
-Repository for "Designing Intelligent Systems" subject. 
-Peter the Great St.Petersburg Polytechnic University (SPbPU)
+# IntelligenceSystems
+Repository for projects in Intelligence Systems area
+
+
+    C. Peter the Great St.Petersburg Polytechnic University (SPbPU)
