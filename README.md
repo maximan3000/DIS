@@ -1,5 +1,7 @@
 # IntelligenceSystems
-Repository for projects in Intelligence Systems area
+Учебные задачи из области аналитики данных. Реализация алгоритмов
+1) рекомендательной системы [методом kNN](https://ru.wikipedia.org/wiki/Метод_k-ближайших_соседей);
+2) (генетического алгоритма)[https://ru.wikipedia.org/wiki/Генетический_алгоритм] на задаче об ["укладке рюкзака"](https://ru.wikipedia.org/wiki/Задача_о_рюкзаке).
 
 
-    C. Peter the Great St.Petersburg Polytechnic University (SPbPU)
+Peter the Great St.Petersburg Polytechnic University (SPbPU)
